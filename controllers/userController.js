@@ -1,5 +1,7 @@
 const data = require('../data')
 const userSchema = require('../models/user')
+
+// create new user
 exports.createUser = async (req, res, next) => {
   try {
     const { id, login, password, age, isDeleted } = req.body
@@ -23,6 +25,7 @@ exports.createUser = async (req, res, next) => {
   }
 }
 
+// get one user by id
 exports.getUserById = async (req, res, next) => {
   try {
     const { userId } = req.params
@@ -42,6 +45,7 @@ exports.getUserById = async (req, res, next) => {
   }
 }
 
+// update user
 exports.updateUser = async (req, res, next) => {
   try {
     const { userId } = req.params
@@ -62,6 +66,7 @@ exports.updateUser = async (req, res, next) => {
   }
 }
 
+// soft delete - change user isDeleted status, from false to true
 exports.deleteUser = async (req, res, next) => {
   try {
     const { userId } = req.params

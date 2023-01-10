@@ -39,8 +39,8 @@ exports.getUserById = async (req, res, next) => {
     })
   } catch (err) {
     res.status(404).json({
-      status: 'User Not Found',
-      data: err.message
+      status: 'Not Found',
+      data: 'User doesnt exist'
     })
   }
 }
@@ -66,6 +66,26 @@ exports.updateUser = async (req, res, next) => {
   }
 }
 
+exports.getAutoSuggestUsers = async (req, res, next) => {
+  try {
+    const { loginSubstring = '', limit = 1 } = req.body
+    const filteredBySubStr = data.filter(user => user.login.includes(loginSubstring))
+    if (filteredBySubStr.length === 0) {
+      throw new Error()
+    }
+    const limitedAndSorted = (filteredBySubStr.length > limit ? filteredBySubStr.slice(0, limit) : filteredBySubStr).sort((a, b) => a.login.localeCompare(b.login))
+    res.status(200).json({
+      status: 'OK',
+      data: limitedAndSorted
+    })
+  } catch {
+    res.status(404).json({
+      status: 'Not Found',
+      data: 'There is no proper User'
+    })
+  }
+}
+
 // soft delete - change user isDeleted status, from false to true
 exports.deleteUser = async (req, res, next) => {
   try {
@@ -83,7 +103,7 @@ exports.deleteUser = async (req, res, next) => {
   } catch (err) {
     res.status(400).json({
       status: 'Bad Request',
-      data: err.message
+      data: 'User doesnt exist'
     })
   }
 }

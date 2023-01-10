@@ -68,7 +68,7 @@ exports.updateUser = async (req, res, next) => {
 
 exports.getAutoSuggestUsers = async (req, res, next) => {
   try {
-    const { loginSubstring = '', limit = 1 } = req.body
+    const { loginSubstring = '', limit = 3 } = req.body
     const filteredBySubStr = data.filter(user => user.login.includes(loginSubstring))
     if (filteredBySubStr.length === 0) {
       throw new Error()
